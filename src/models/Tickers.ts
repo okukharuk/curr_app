@@ -1,0 +1,1 @@
+export type Tickers = Record<string, number>

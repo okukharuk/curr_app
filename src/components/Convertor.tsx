@@ -1,43 +1,57 @@
 import React, { useEffect } from 'react';
 import Card from './Card';
 import arrows from '../public/arrows.svg'
+import { Currency } from '../types/types';
+import { defaultCurrency } from '../consts/consts';
 
-const Convertor = ({currencyTickers, tickersFetched}) => {
-    const defaultCurrency = {amount: '', currency: 'UAH'};
+interface ConvertorProps {
+    currencyTickers: Record<string, number>,
+}
 
+const Convertor: React.FC<ConvertorProps> = ({currencyTickers}) => {
+    
     const [convertCurrency, setConvertCurrency] = React.useState(defaultCurrency);
     const [exchangeCurrency, setExchangeCurrency] = React.useState(defaultCurrency);
 
     const [convertChanged, setConvertChanged] = React.useState(false);
     const [exchangeChanged, setExchangeChanged] = React.useState(false);
 
-    const calculateRates = (currency, currencyChanged, resCurrency, setResCurrency, setCurrencyChanged) => {
+    const changeCurrency = (exchange: Currency, convert: Currency) => {
+        setExchangeCurrency(exchange);
+        setConvertCurrency(convert);
+    }
+
+    const calculateRates = (
+        currency: Currency, 
+        currencyChanged: boolean, 
+        resCurrency: Currency, 
+        setResCurrency: (value: Currency) => void, 
+        setCurrencyChanged: (value: boolean) => void
+        ) => {
         const convertAmount = currency.amount;
         const convertedCurrency = resCurrency.currency;
 
-        if (tickersFetched && currencyChanged) {
-            if (currency.currency === resCurrency.currency) 
-                setResCurrency({amount: convertAmount, currency: convertedCurrency});
-            else if (currency.currency === 'USD') 
-                setResCurrency({amount: convertAmount*currencyTickers[convertedCurrency], currency: convertedCurrency});
-            else if (convertedCurrency === 'USD') 
-                setResCurrency({amount: convertAmount/currencyTickers[currency.currency], currency: convertedCurrency});
-            else 
-                setResCurrency({amount: convertAmount*currencyTickers[convertedCurrency]/currencyTickers[currency.currency], currency: convertedCurrency});
-                
+        if (currencyChanged) {
+            currency.currency === resCurrency.currency
+            ?setResCurrency({
+                amount: convertAmount, 
+                currency: convertedCurrency
+            })
+            :setResCurrency({
+                amount: convertAmount*currencyTickers[convertedCurrency]/currencyTickers[currency.currency], 
+                currency: convertedCurrency
+            });    
             setCurrencyChanged(false);
         }
     }
 
     const handleChange = () => {
         const bufferCurrency = convertCurrency;
-        setConvertCurrency(exchangeCurrency);
-        setExchangeCurrency(bufferCurrency);
+        changeCurrency(exchangeCurrency, bufferCurrency);
     }
 
     const handleClick = () => {
-        setConvertCurrency(defaultCurrency);
-        setExchangeCurrency(defaultCurrency);
+        changeCurrency(defaultCurrency, defaultCurrency);
     }
 
     useEffect(() => {
@@ -69,6 +83,7 @@ const Convertor = ({currencyTickers, tickersFetched}) => {
                         selectedCurrency={exchangeCurrency} 
                         setSelectedCurrency={setExchangeCurrency} 
                         setCurrencyChanged={setExchangeChanged}
+                        setConvertChanged={setConvertChanged}
                     />
                 </div>  
                 <div 
