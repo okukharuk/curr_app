@@ -3,4 +3,4 @@
 ## How to use
     You can use it through github pages: https://okukharuk.github.io/curr_app/
 ## How to run locally
-    You can clone project and run npm run dev in main folder 
+    You can clone project and run npm run start in main folder 
