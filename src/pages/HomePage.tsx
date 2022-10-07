@@ -9,7 +9,7 @@ import { fetchTickers, setPairs } from '../store/reducers/ActionCreators';
 const HomePage = () => {
     const {tickers, isLoading, error} = useAppSelector(state => state.TickersReducer)
     const dispatch = useAppDispatch();
-    const currencyPairs = exchangePairs.slice(0, 5); 
+    const currencyPairs = exchangePairs.slice(0, 24); 
     //                             ^ ^ ^ ^ ^ ^ ^
     // You can change number of used currencies by changing the slice params 
     // or you can set it manually like this: const currencyPairs = ['USD', 'EUR', 'UAH', ...] 

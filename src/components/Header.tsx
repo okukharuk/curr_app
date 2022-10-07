@@ -18,7 +18,7 @@ const Header: React.FC<HeaderProps> = ({currencyTickers}) => {
     }, [currencyTickers])
 
     return (
-        <div className='flex flex-row absolute justify-center h-1/10 w-full overflow-y-scroll pl-10 no-scrollbar'>
+        <div className='flex absolute h-1/10 w-full overflow-x-scroll no-scrollbar'>
             {
                 tickers.map((ticker) => {
                     return <Ticker ticker={ticker} />
