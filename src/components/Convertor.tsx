@@ -47,7 +47,7 @@ const Convertor: React.FC<ConvertorProps> = ({currencyTickers}) => {
 
     const handleChange = () => {
         const bufferCurrency = convertCurrency;
-        changeCurrency(exchangeCurrency, bufferCurrency);
+        changeCurrency(bufferCurrency, exchangeCurrency);
     }
 
     const handleClick = () => {
